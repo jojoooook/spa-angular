@@ -1,0 +1,17 @@
+<div class="container my-5">
+    <h2 class="mb-4">Data Program Studi</h2>
+    <div *ngIf="isLoading" class="text-center">Loading...</div> <!-- Show loading message while fetching data -->
+  
+    <div class="row">
+      <!-- Loop through the 'prodi' array to display each item -->
+      <div class="col-md-4 mb-4" *ngFor="let item of prodi">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.nama }}</h5> <!-- Display the name of the program -->
+            <p class="card-text"><strong>Fakultas:</strong> {{ item.fakultas }}</p> <!-- Display the faculty of the program -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
