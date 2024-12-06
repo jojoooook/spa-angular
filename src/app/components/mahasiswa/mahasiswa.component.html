@@ -1,1 +1,25 @@
-<p>mahasiswa works!</p>
+<div class="container my-5">
+    <h2 class="mb-4">Data Mahasiswa</h2>
+    <div *ngIf="isLoading" class="text-center">Loading...</div> <!-- Show loading message while fetching data -->
+  
+    <div class="row">
+      <!-- Loop through the 'mahasiswa' array to display each student -->
+      <div class="col-md-4 mb-4" *ngFor="let student of mahasiswa">
+        <div class="card">
+          <!-- Display student photo -->
+          <img [src]="student.foto" class="card-img-top" alt="Foto Mahasiswa" style="height: 200px; object-fit: cover;">
+          
+          <div class="card-body">
+            <!-- Display student name -->
+            <h5 class="card-title">{{ student.nama }}</h5> 
+            <!-- Display NPM -->
+            <p class="card-text"><strong>NPM:</strong> {{ student.npm }}</p> 
+            <!-- Display school -->
+            <p class="card-text"><strong>Asal Sekolah:</strong> {{ student.asal_sekolah }}</p> 
+            <!-- Display program studi -->
+            <p class="card-text"><strong>Program Studi:</strong> {{ student.prodi_id.nama }}</p> 
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
