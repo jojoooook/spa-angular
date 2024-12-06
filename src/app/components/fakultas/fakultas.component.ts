@@ -3,20 +3,20 @@ import { Component, OnInit, inject } from '@angular/core';  // Mengimpor dekorat
 import { HttpClient } from '@angular/common/http';  // Mengimpor HttpClient untuk melakukan HTTP request
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';  // Tambahkan untuk menangani formulir
 // import * as bootstrap from 'bootstrap';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination'; // Impor modul ngx-pagination
+
 
 @Component({
   selector: 'app-fakultas',  // Nama selector untuk komponen ini. Komponen akan digunakan di template dengan tag <app-fakultas></app-fakultas>
   standalone: true,  // Menyatakan bahwa komponen ini adalah komponen standalone dan tidak membutuhkan module tambahan
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],  // Mengimpor CommonModule untuk memungkinkan penggunaan direktif Angular standar seperti *ngIf dan *ngFor di template // Mengimpor CommonModule untuk memungkinkan penggunaan direktif Angular standar seperti *ngIf dan *ngFor di template
+  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],  // Mengimpor CommonModule untuk memungkinkan penggunaan direktif Angular standar seperti *ngIf dan *ngFor di template
   templateUrl: './fakultas.component.html',  // Path ke file template HTML untuk komponen ini
   styleUrl: './fakultas.component.css'  // Path ke file CSS untuk komponen ini
 })
 export class FakultasComponent implements OnInit {  // Deklarasi komponen dengan mengimplementasikan lifecycle hook OnInit
   fakultas: any[] = [];  // Mendeklarasikan properti fakultas yang akan menyimpan data yang diterima dari API
   currentPage = 1;
-  itemsPerPage = 5;
-  
+itemsPerPage = 5;
   apiUrl = 'https://express-app-smoky.vercel.app/api/fakultas';  // URL API yang digunakan untuk mendapatkan data fakultas
   isLoading = true;  // Properti untuk status loading, digunakan untuk menunjukkan loader saat data sedang diambil
 
@@ -64,23 +64,25 @@ export class FakultasComponent implements OnInit {  // Deklarasi komponen dengan
           this.getFakultas();  // Refresh data fakultas
           this.fakultasForm.reset();  // Reset formulir
           this.isSubmitting = false;  // Reset status submitting
-
+  
           // Tutup modal setelah data berhasil ditambahkan
           // const modalElement = document.getElementById('tambahFakultasModal') as HTMLElement;
           // if (modalElement) {
           //   const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
           //   modalInstance.hide();
-
-          //   // Hapus elemen backdrop jika ada
-          //   const backdrop = document.querySelector('.modal-backdrop');
-          //   if (backdrop) {
-          //     backdrop.remove();
-          //   }
-
-          //   // Pulihkan scroll pada body
-          //   document.body.classList.remove('modal-open');
-          //   document.body.style.overflow = '';
-          //   document.body.style.paddingRight = '';
+  
+          //   // Pastikan untuk menghapus atribut dan gaya pada body setelah modal ditutup
+          //   modalElement.addEventListener('hidden.bs.modal', () => {
+          //     const backdrop = document.querySelector('.modal-backdrop');
+          //     if (backdrop) {
+          //       backdrop.remove();
+          //     }
+  
+          //     // Pulihkan scroll pada body
+          //     document.body.classList.remove('modal-open');
+          //     document.body.style.overflow = '';
+          //     document.body.style.paddingRight = '';
+          //   }, { once: true }); // Hanya jalankan sekali untuk setiap instance modal
           // }
         },
         error: (err) => {
@@ -89,5 +91,5 @@ export class FakultasComponent implements OnInit {  // Deklarasi komponen dengan
         },
       });
     }
-  }
+  }    
 }
