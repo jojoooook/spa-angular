@@ -19,29 +19,25 @@
   </button>
   <!-- Modal Edit Prodi -->
   <div
-    class="modal fade"
-    id="editProdiModal"
-    tabindex="-1"
-    aria-labelledby="editProdiModalLabel"
-    aria-hidden="true"
+    class="modal"
+    *ngIf="isEditModalVisible"
+    style="display: block; background: rgba(0, 0, 0, 0.5)"
   >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editProdiModalLabel">
-            Ubah Program Studi
-          </h5>
+          <h5 class="modal-title">Edit Program Studi</h5>
           <button
             type="button"
             class="btn-close"
-            data-bs-dismiss="modal"
+            (click)="isEditModalVisible = false"
             aria-label="Close"
           ></button>
         </div>
         <div class="modal-body">
           <form [formGroup]="prodiForm" (ngSubmit)="updateProdi()">
             <div class="mb-3">
-              <label for="editNama" class="form-label">Nama Prodi</label>
+              <label for="editNama" class="form-label">Nama</label>
               <input
                 id="editNama"
                 type="text"
@@ -78,7 +74,7 @@
               class="btn btn-primary"
               [disabled]="isSubmitting"
             >
-              {{ isSubmitting ? "Menyimpan..." : "Ubah Prodi" }}
+              {{ isSubmitting ? "Menyimpan..." : "Simpan Perubahan" }}
             </button>
           </form>
         </div>

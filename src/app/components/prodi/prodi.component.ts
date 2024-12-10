@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'; // Mengimpor modul Angular yang 
 import { Component, OnInit, inject } from '@angular/core'; // Mengimpor decorator Component, interface OnInit untuk inisialisasi, dan inject untuk injeksi dependency.
 import { HttpClient } from '@angular/common/http'; // Mengimpor HttpClient untuk melakukan HTTP request ke server.
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'; // Mengimpor modul dan class untuk membuat formulir reaktif.
-import * as bootstrap from 'bootstrap'; // Mengimpor Bootstrap untuk manipulasi modal dan elemen lainnya.
+// import * as bootstrap from 'bootstrap'; // Mengimpor Bootstrap untuk manipulasi modal dan elemen lainnya.
 
 @Component({
   selector: 'app-prodi', // Selector untuk komponen ini digunakan dalam template HTML.
@@ -118,31 +118,29 @@ export class ProdiComponent implements OnInit { // Mendeklarasikan class kompone
     }
   }
   editProdiId: string | null = null; // ID prodi yang sedang diubah
+  isEditModalVisible = false;
 
   // Method untuk mendapatkan data prodi berdasarkan ID
   getProdiById(_id: string): void {
-    this.editProdiId = _id; // Menyimpan ID prodi yang dipilih
+    this.editProdiId = _id; // Simpan ID Prodi yang akan diedit
     this.http.get(`${this.apiProdiUrl}/${_id}`).subscribe({
       next: (data: any) => {
-        // Isi form dengan data yang diterima dari API
+        // Isi form dengan data dari API
         this.prodiForm.patchValue({
-          nama: data.nama,
-          singkatan: data.singkatan,
-          fakultas_id: data.fakultas_id,
+          nama: data.nama || '',
+          singkatan: data.singkatan || '',
+          fakultas_id: data.fakultas_id || null,
         });
-
-        // Buka modal edit
-        const modalElement = document.getElementById('editProdiModal') as HTMLElement;
-        if (modalElement) {
-          const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modalInstance.show();
-        }
+  
+        // Tampilkan modal edit
+        this.isEditModalVisible = true;
       },
       error: (err) => {
-        console.error('Error fetching prodi data by ID:', err);
+        console.error('Error fetching Prodi data by ID:', err);
       },
     });
   }
+  
 
   // Method untuk mengupdate data prodi
   updateProdi(): void {
@@ -157,8 +155,8 @@ export class ProdiComponent implements OnInit { // Mendeklarasikan class kompone
           // Tutup modal edit setelah data berhasil diupdate
           const modalElement = document.getElementById('editProdiModal') as HTMLElement;
           if (modalElement) {
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance?.hide();
+            // const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            // modalInstance?.hide();
           }
         },
         error: (err) => {

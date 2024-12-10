@@ -97,4 +97,54 @@ export class MahasiswaComponent implements OnInit { // Mendeklarasikan class kom
       });
     }
   }
+
+  editMahasiswaId: string | null = null;
+  isEditModalVisible = false;
+  
+  getMahasiswaById(_id: string): void {
+    console.log('Fetching Mahasiswa with ID:', _id);
+    this.editMahasiswaId = _id;
+    this.http.get(`${this.apiMahasiswaUrl}/${_id}`).subscribe({
+      next: (data: any) => {
+        console.log('Mahasiswa data fetched:', data);
+        this.mahasiswaForm.patchValue({
+          npm: data.npm || '',
+          nama: data.nama || '',
+          prodi_id: data.prodi_id || null,
+          jenis_kelamin: data.jenis_kelamin || 'L',
+          asal_sekolah: data.asal_sekolah || '',
+          foto: '',
+        });
+        this.isEditModalVisible = true;
+      },
+      error: (err) => {
+        console.error('Error fetching Mahasiswa by ID:', err);
+      },
+    });
+  }
+  
+  updateMahasiswa(): void {
+    if (this.mahasiswaForm.valid && this.editMahasiswaId) {
+      this.isSubmitting = true; // Aktifkan indikator pengiriman data
+      this.http.put(`${this.apiMahasiswaUrl}/${this.editMahasiswaId}`, this.mahasiswaForm.value).subscribe({
+        next: (response) => {
+          console.log('Mahasiswa berhasil diperbarui:', response);
+          this.getMahasiswa(); // Refresh data mahasiswa
+          this.isSubmitting = false;
+  
+          // Tutup modal edit
+          const modalElement = document.getElementById('editMahasiswaModal') as HTMLElement;
+          if (modalElement) {
+            // const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            // modalInstance?.hide();
+          }
+        },
+        error: (err) => {
+          console.error('Error updating mahasiswa:', err);
+          this.isSubmitting = false; // Nonaktifkan indikator pengiriman data
+        },
+      });
+    }
+  }
+  
 }
